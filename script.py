@@ -1,54 +1,50 @@
 import random
 import time
-import os
 
 class FunnyBot:
-    def __init__(self, name="🤖 FunnyBot"):
+    def __init__(self, name="🤖 FunnyBot", log_file="jokes.log"):
         self.name = name
+        self.log_file = log_file
         self.jokes = [
             "Why don’t scientists trust atoms? Because they make up everything! 😂",
             "Why did the scarecrow win an award? Because he was outstanding in his field! 🌾",
             "I told my computer I needed a break, and it said “No problem – I’ll go to sleep.” 😴",
             "Why do Python programmers wear glasses? Because they can’t C! 🐍👓"
         ]
-        # simple ASCII‑dance frames
-        self.dance_moves = [
-            r"(•_•) ♪", r"( •_•)>⌐■-■ ♪", r"(⌐■_■) ♪", r"\(^_^)/ ♪", r"(╯°□°）╯︵ ┻━┻ ♪"
-        ]
-
-    def clear_screen(self):
-        """Clear console (Windows ‘cls’, others ‘clear’)."""
-        os.system('cls' if os.name == 'nt' else 'clear')
 
     def tell_joke(self):
         joke = random.choice(self.jokes)
-        print(f"\n{self.name} says: {joke}")
-
-    def ascii_dance(self, steps=5, delay=0.3):
-        print("\nTime to dance! 💃🕺")
-        for i in range(steps):
-            frame = random.choice(self.dance_moves)
-            print(frame, end="\r", flush=True)
-            time.sleep(delay)
-        print()  # newline after dance
+        line = f"{self.name} says: {joke}"
+        print(line)
+        with open(self.log_file, "a", encoding="utf-8") as f:
+            f.write(line + "\n")
 
     def run(self):
-        # self.clear_screen()   ← removed so Actions logs aren’t wiped
-        print(f"Welcome to {self.name}!\n")
-        time.sleep(1)
+        print("\n" + "="*30)
+        print(f" START of {self.name} output ")
+        print("="*30 + "\n")
 
-        # Ask user how many jokes
+        # decide how many jokes (non‑interactive fallback)
         try:
-            n = int(input("How many jokes would you like? "))
-        except (ValueError, EOFError):
-            n = 1
+            n = int(input("How many jokes? "))
+        except:
+            n = 2
+
+        # clear old log
+        open(self.log_file, "w").close()
 
         for i in range(n):
             self.tell_joke()
-            time.sleep(1)
-            self.ascii_dance(steps=3)
+            time.sleep(0.5)
 
-        print("\nThat's all folks! 🎉")
+        print("\n" + "-"*30)
+        print("Log of jokes:")
+        print("-"*30)
+        # show the log file
+        for line in open(self.log_file, encoding="utf-8"):
+            print(line.strip())
+
+        print("\n=== END ===")
 
 if __name__ == "__main__":
     bot = FunnyBot()
