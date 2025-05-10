@@ -33,13 +33,12 @@ class FunnyBot:
         print()  # newline after dance
 
     def run(self):
-        self.clear_screen()
+        # self.clear_screen()   ← removed so Actions logs aren’t wiped
         print(f"Welcome to {self.name}!\n")
         time.sleep(1)
 
         # Ask user how many jokes
         try:
-            # interactive prompt; if it fails, default to 1
             n = int(input("How many jokes would you like? "))
         except (ValueError, EOFError):
             n = 1
