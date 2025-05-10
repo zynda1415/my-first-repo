@@ -38,16 +38,11 @@ class FunnyBot:
         time.sleep(1)
 
         # Ask user how many jokes
-           try:
-          n = int(input("How many jokes would you like? "))
-      except ValueError:
-          n = 1
-      try:
-         # interactive prompt; if it fails, default to 1
-          n = int(input("How many jokes would you like? "))
-      except (ValueError, EOFError):
-           n = 1
-
+        try:
+            # interactive prompt; if it fails, default to 1
+            n = int(input("How many jokes would you like? "))
+        except (ValueError, EOFError):
+            n = 1
 
         for i in range(n):
             self.tell_joke()
